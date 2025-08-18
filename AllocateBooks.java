@@ -61,7 +61,7 @@ public class AllocateBooks{
          * Explanation: There are four ways to split nums into two subarrays.
          * The best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.4
          * 
-         * This code is applicable for allocate books problem statement also and also for split largest array sum
+         * This code is applicable for allocate books and painter partitioner problem statement also and also for split largest array sum
          */
         System.out.println("Mimimum number of pages allocated to two student : " +findPages(arr, n, m));
     }
