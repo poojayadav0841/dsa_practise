@@ -10,6 +10,31 @@ class Node{
 public class LinkedListCreation {
 
 
+
+    /* problem statement -There is a singly-linked list head and we want to delete a node node in it.
+    You are given the node to be deleted node. You will not be given access to the first node of head.
+    All the values of the linked list are unique, 
+    and it is guaranteed that the given node node is not the last node in the linked list.
+ */
+
+   private static void deleteNode(Node node){
+           node.data = node.next.data;
+           node.next = node.next.next;
+   }
+
+   //find the length of list
+   private static int getLength(Node head){
+        if(head == null) return 0;
+
+        int count =1;
+        Node curr = head;
+        while(curr.next != null){
+            count++;
+            curr = curr.next;
+        }
+        return count;
+   }
+
     //inserting the head at end
     private static Node insertAtEnd(Node head, int x){
         
@@ -76,6 +101,22 @@ public class LinkedListCreation {
          Node end = insertAtEnd(head, 6);
 
          printList(end);
+         
+         //to delete the node
+         Node curr = head;
+        while ( curr.next != null && curr.data != 4){
+            curr = curr.next;
+        }
+        
+        //delete the node pointing to 5
+        if(curr.next != null){
+            deleteNode(curr);
+        }
+
+        System.out.println("After deletion of node 4 : " );
+        printList(head);
+
+         System.out.println("Length of the list : " + getLength(head));
 
     }
 }
