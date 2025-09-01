@@ -10,6 +10,21 @@ class Node{
 public class LinkedListCreation {
 
 
+    //search in a linked list
+    private static boolean search(Node head, int key){
+        if(head == null) return false;  // list is empty
+
+        Node curr = head;
+
+        while(curr != null){
+            if(curr.data == key) return true;
+            curr = curr.next;
+        }
+
+        return false; // if key is not matced
+        
+    }
+
 
     /* problem statement -There is a singly-linked list head and we want to delete a node node in it.
     You are given the node to be deleted node. You will not be given access to the first node of head.
@@ -116,7 +131,9 @@ public class LinkedListCreation {
         System.out.println("After deletion of node 4 : " );
         printList(head);
 
-         System.out.println("Length of the list : " + getLength(head));
+        System.out.println("Length of the list : " + getLength(head));
+
+        System.out.println("Is given element present in list : " + search(head,3));
 
     }
 }
