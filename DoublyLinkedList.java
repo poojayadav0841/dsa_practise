@@ -11,6 +11,22 @@ class Node{
 
 public class DoublyLinkedList {
 
+    //reversing the DLL
+    private static Node reverseDLL(Node head){
+        Node curr =head, temp = null;
+
+        while(curr != null){
+            temp = curr.prev;
+            curr.prev = curr.next;
+            curr.next = temp;
+            curr = curr.prev;
+        }
+        if(temp != null){
+            head = temp.prev;
+        }
+        return head;
+    }
+
     //deleting a node
     private static Node delPos(Node head , int x){
         //here x is position
@@ -118,6 +134,9 @@ public class DoublyLinkedList {
         int y = 3;
         Node delNode = delPos(head, y);
         printDLL(delNode);
+        System.out.println("Printing the reverse of DLL: ");
+        Node rev = reverseDLL(head);
+        printDLL(rev);
 
     }
 }

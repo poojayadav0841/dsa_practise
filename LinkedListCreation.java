@@ -1,13 +1,30 @@
 class Node{
     int data;
     Node next;
+    Node (){}
+    Node (int d, Node next){
+        data = d;
+        this.next = next;
+    }
     Node( int d){
         data  =d;
-        next = null;
     }
 }
 
 public class LinkedListCreation {
+
+
+    //calculating the middle of linked list
+    //using two pointer approach
+    private static Node middleNode(Node head){
+        Node slow = head, fast = head;
+
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
 
 
     //search in a linked list
@@ -134,6 +151,12 @@ public class LinkedListCreation {
         System.out.println("Length of the list : " + getLength(head));
 
         System.out.println("Is given element present in list : " + search(head,3));
+
+        System.out.println("Middle node of the given list : "); 
+        Node middNode = middleNode(head);
+        printList(middNode);
+
+              
 
     }
 }
