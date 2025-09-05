@@ -14,6 +14,45 @@ class Node{
 public class LinkedListCreation {
 
 
+    //detecting loop in a linked list
+    private static boolean checkLoop(Node head){
+        if(head == null || head.next == null) return false;
+
+        Node slow = head, fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(slow == fast) return true;
+        }
+        return false;
+    }
+    //reversing the linkedlist
+    private static Node reverse(Node head){
+        //using iterative way-
+        // Node curr= head;
+        // Node prev = null;
+        // while(curr != null){
+        //     Node nextNode = curr.next;
+        //     curr.next = prev;
+        //     prev = curr;
+        //     curr = nextNode;
+
+            
+        // }
+        // return prev;
+
+        //now using recuresive way
+        if(head == null || head.next == null) return head;
+
+        Node newHead = reverse(head.next);
+        head.next.next = head;
+        head.next = null;
+
+        return newHead;
+
+    }
+
     //calculating the middle of linked list
     //using two pointer approach
     private static Node middleNode(Node head){
@@ -122,7 +161,7 @@ public class LinkedListCreation {
     }
     public static void main(String args[]){
  
-        int arr[] = {1,2,3,4,5};
+        int arr[] = {1,2,3,4,5,2};
 
         /* problem statement -
          * covert the array into linkedlist
@@ -155,6 +194,16 @@ public class LinkedListCreation {
         System.out.println("Middle node of the given list : "); 
         Node middNode = middleNode(head);
         printList(middNode);
+        Node reverse = reverse(head);
+        System.out.println("Reversing linkedlist : ");
+        printList(reverse);
+
+        Node tail = reverse;
+        while (tail.next != null) {
+            tail = tail.next;
+            }
+         tail.next = reverse.next;
+        System.out.println("Is loop present in the given linkedlist : "+checkLoop(reverse));
 
               
 
