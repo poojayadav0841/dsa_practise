@@ -1,211 +1,229 @@
-class Node{
+class Node {
     int data;
     Node next;
-    Node (){}
-    Node (int d, Node next){
+    Node() {}
+    Node(int d, Node next) {
         data = d;
         this.next = next;
     }
-    Node( int d){
-        data  =d;
+    Node(int d) {
+        data = d;
+        this.next = null;
     }
 }
 
 public class LinkedListCreation {
 
-
-    //detecting loop in a linked list
-    private static boolean checkLoop(Node head){
-        if(head == null || head.next == null) return false;
+    // Count the number of nodes in the loop
+    private static int lengthOfLoop(Node head) {
+        if (head == null || head.next == null) return 0;
 
         Node slow = head, fast = head;
-        while(fast != null && fast.next != null){
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
+            if (slow == fast) return countLoopNodes(slow);
+        }
+        return 0; // no cycle
+    }
 
-            if(slow == fast) return true;
+    private static int countLoopNodes(Node node) {
+        int count = 1;
+        Node curr = node.next;
+        while (curr != node) {
+            count++;
+            curr = curr.next;
+        }
+        return count;
+    }
+
+    // Find the beginning of node where cycle starts
+    private static Node detectCycle(Node head) {
+        if (head == null || head.next == null) return null;
+
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next; // fixed
+            if (slow == fast) break;
+        }
+
+        if (fast == null || fast.next == null) return null;
+
+        slow = head;
+        while (slow != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
+
+    // Detecting loop in a linked list
+    private static boolean checkLoop(Node head) {
+        if (head == null || head.next == null) return false;
+
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) return true;
         }
         return false;
     }
-    //reversing the linkedlist
-    private static Node reverse(Node head){
-        //using iterative way-
-        // Node curr= head;
-        // Node prev = null;
-        // while(curr != null){
-        //     Node nextNode = curr.next;
-        //     curr.next = prev;
-        //     prev = curr;
-        //     curr = nextNode;
 
-            
-        // }
-        // return prev;
-
-        //now using recuresive way
-        if(head == null || head.next == null) return head;
+    // Reverse the linked list (recursive)
+    private static Node reverse(Node head) {
+        if (head == null || head.next == null) return head;
 
         Node newHead = reverse(head.next);
         head.next.next = head;
         head.next = null;
-
         return newHead;
-
     }
 
-    //calculating the middle of linked list
-    //using two pointer approach
-    private static Node middleNode(Node head){
+    // Find middle node
+    private static Node middleNode(Node head) {
         Node slow = head, fast = head;
-
-        while(fast != null && fast.next != null){
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
         return slow;
     }
 
-
-    //search in a linked list
-    private static boolean search(Node head, int key){
-        if(head == null) return false;  // list is empty
-
+    // Search for a key in linked list
+    private static boolean search(Node head, int key) {
         Node curr = head;
-
-        while(curr != null){
-            if(curr.data == key) return true;
+        while (curr != null) {
+            if (curr.data == key) return true;
             curr = curr.next;
         }
-
-        return false; // if key is not matced
-        
+        return false;
     }
 
+    // Delete a node (LeetCode style: you only have access to that node, not head)
+    private static void deleteNode(Node node) {
+        if (node == null || node.next == null) return;
+        node.data = node.next.data;
+        node.next = node.next.next;
+    }
 
-    /* problem statement -There is a singly-linked list head and we want to delete a node node in it.
-    You are given the node to be deleted node. You will not be given access to the first node of head.
-    All the values of the linked list are unique, 
-    and it is guaranteed that the given node node is not the last node in the linked list.
- */
-
-   private static void deleteNode(Node node){
-           node.data = node.next.data;
-           node.next = node.next.next;
-   }
-
-   //find the length of list
-   private static int getLength(Node head){
-        if(head == null) return 0;
-
-        int count =1;
+    // Find length of list
+    private static int getLength(Node head) {
+        int count = 0;
         Node curr = head;
-        while(curr.next != null){
+        while (curr != null) {
             count++;
             curr = curr.next;
         }
         return count;
-   }
-
-    //inserting the head at end
-    private static Node insertAtEnd(Node head, int x){
-        
-        Node newNode = new Node(x);
-        //check for empty list-
-        if(head  == null) return newNode;
-
-        Node curr = head;
-
-        while(curr.next != null){
-            curr = curr.next;
-        }
-
-        curr.next = newNode;
-        return head;
-        
     }
 
-    //for printing the list
-    private static void printList(Node head){
-        //check for empty
+    // Insert at end
+    private static Node insertAtEnd(Node head, int x) {
+        Node newNode = new Node(x);
+        if (head == null) return newNode;
 
-        if(head == null){
-             System.out.println("List is empty");
-             return;
+        Node curr = head;
+        while (curr.next != null) {
+            curr = curr.next;
         }
+        curr.next = newNode;
+        return head;
+    }
 
-        while(head != null){
-            System.out.print ( head.data);
-            if(head.next != null) System.out.print("-->");
-            head = head.next;
+    // Print list
+    private static void printList(Node head) {
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data);
+            if (curr.next != null) System.out.print(" --> ");
+            curr = curr.next;
         }
         System.out.println();
     }
 
+    // Convert array to list
+    private static Node arrayToList(int arr[]) {
+        if (arr.length == 0) return null;
 
-    //for converting the array to List
-    private static Node arrayToList(int arr[]){
-           
-        //check for empty array
-        if(arr.length  == 0) return null;
-        
-        // intialise  first idx array element as head
         Node head = new Node(arr[0]);
         Node curr = head;
-
-        //now iterate over arrat
-        for(int i=1;i<arr.length;i++){
+        for (int i = 1; i < arr.length; i++) {
             curr.next = new Node(arr[i]);
             curr = curr.next;
         }
         return head;
     }
-    public static void main(String args[]){
- 
-        int arr[] = {1,2,3,4,5,2};
 
-        /* problem statement -
-         * covert the array into linkedlist
-         */
+    // Helper: create loop at position (1-based index, pos = 0 means no loop)
+    private static void createLoop(Node head, int pos) {
+        if (pos == 0) return;
 
-         Node head = arrayToList(arr);
-
-         Node end = insertAtEnd(head, 6);
-
-         printList(end);
-         
-         //to delete the node
-         Node curr = head;
-        while ( curr.next != null && curr.data != 4){
-            curr = curr.next;
+        Node loopNode = null, tail = head;
+        int idx = 1;
+        while (tail.next != null) {
+            if (idx == pos) loopNode = tail;
+            tail = tail.next;
+            idx++;
         }
-        
-        //delete the node pointing to 5
-        if(curr.next != null){
-            deleteNode(curr);
+        if (loopNode != null) {
+            tail.next = loopNode;
         }
+    }
 
-        System.out.println("After deletion of node 4 : " );
+    public static void main(String args[]) {
+        int arr[] = {1, 2, 3, 4, 5};
+
+        // Convert array to linked list
+        Node head = arrayToList(arr);
+        System.out.print("Original List: ");
         printList(head);
 
-        System.out.println("Length of the list : " + getLength(head));
+        // Insert at end
+        head = insertAtEnd(head, 6);
+        System.out.print("After insertion: ");
+        printList(head);
 
-        System.out.println("Is given element present in list : " + search(head,3));
+        // Delete node with value 4
+        Node curr = head;
+        while (curr != null && curr.data != 4) {
+            curr = curr.next;
+        }
+        if (curr != null) deleteNode(curr);
+        System.out.print("After deletion of node 4: ");
+        printList(head);
 
-        System.out.println("Middle node of the given list : "); 
-        Node middNode = middleNode(head);
-        printList(middNode);
-        Node reverse = reverse(head);
-        System.out.println("Reversing linkedlist : ");
-        printList(reverse);
+        // Length of list
+        System.out.println("Length of the list: " + getLength(head));
 
-        Node tail = reverse;
-        while (tail.next != null) {
-            tail = tail.next;
-            }
-         tail.next = reverse.next;
-        System.out.println("Is loop present in the given linkedlist : "+checkLoop(reverse));
+        // Search element
+        System.out.println("Is 3 present in list: " + search(head, 3));
 
-              
+        // Middle node
+        Node midNode = middleNode(head);
+        System.out.println("Middle node of the list: " + midNode.data);
 
+        // Reverse
+        Node rev = reverse(head);
+        System.out.print("Reversed list: ");
+        printList(rev);
+
+        // Create loop at position 2 (node with value 5 after reversal)
+        createLoop(rev, 2);
+
+        // Check loop
+        System.out.println("Is loop present: " + checkLoop(rev));
+
+        // Detect cycle start
+        Node cycleStart = detectCycle(rev);
+        System.out.println("Node where loop starts: " + (cycleStart != null ? cycleStart.data : "No loop"));
+
+        // Loop length
+        System.out.println("No. of nodes in the loop: " + lengthOfLoop(rev));
     }
 }
